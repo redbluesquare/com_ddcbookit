@@ -1,0 +1,1 @@
+ALTER TABLE `#__ddcbookit_apartments` CHANGE COLUMN `proptype_title` `proptype_id` INT(3) NOT NULL ;

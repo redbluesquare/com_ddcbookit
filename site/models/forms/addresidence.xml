@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="addres">
+		<field
+			name="ppl"
+			type="integer"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_PPL_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_PPL_DESC"
+			class="span12"
+			first="1"
+			last="8"
+			step="1">
+			<option value=""></option>
+		</field>
+		<field 
+			name="checkin"
+			type="calendar"
+			default="now()"
+			label="Select a date"
+			description=""
+			format="%m-%d-%Y"
+			class="span12"
+		/>
+		<field
+			name="checkout"
+			type="calendar"
+			default="now(2)"
+			label="Select a date"
+			description=""
+			format="%m-%d-%Y"
+			class="span12"
+		/>
+	</fieldset>
+	<fieldset name="resother">
+		<field
+			name="res_search"
+			type="hidden"
+			hidden="true"
+			label="COM_DDCBOOKIT_APARTMENT_RES_SEARCH_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RES_SEARCH_DESC"
+			default="residence_search"
+		/>
+	</fieldset>
+</form>

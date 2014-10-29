@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="res_left_top">
+		<field
+			name="ddcbookit_residence_id"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_TYPE_ID_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_TYPE_ID_DESC"
+			readonly="true"
+		/>
+	</fieldset>
+	<fieldset name="res_left_top_name">
+		<field
+			name="residence_name"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_NAME_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_NAME_DESC"
+			required="yes"
+			class="span10"
+		/>
+		<field
+			name="alias"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_ALIAS_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_ALIAS_DESC"
+			class="span10"
+			readonly="true"
+		/>
+	</fieldset>
+	<fieldset name="res_left_main">
+		<field
+			name="description"
+			type="editor"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_DESCRIPTION_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_DESCRIPTION_DESC"
+			filter="safehtml"
+			row="5"
+		/>
+	</fieldset>
+	<fieldset name="resside">
+		<field
+			name="address1"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_ADD1_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_ADD1_DESC"
+		/>
+		<field
+			name="address2"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_ADD2_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_ADD2_DESC"
+		/>
+		<field
+			name="town"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TOWN_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TOWN_DESC"
+		/>
+		<field
+			name="county"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_COUNTY_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_COUNTY_DESC"
+		/>
+		<field
+			name="post_code"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_POSTCODE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_POSTCODE_DESC"
+		/>
+		<field
+			name="image_thumb"
+			type="media"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_IMAGE_THUMB_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_IMAGE_THUMB_DESC"
+		/>
+		<field
+			name="main_image"
+			type="media"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_MAIN_IMAGE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_MAIN_IMAGE_DESC"
+		/>
+		<field name="state" type="list" label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
+			filter="intval" size="1" default="1"
+		>
+			<option value="1">
+				JPUBLISHED</option>
+			<option value="0">
+				JUNPUBLISHED</option>
+			<option value="2">
+				JARCHIVED</option>
+			<option value="-2">
+				JTRASHED</option>
+		</field>
+		<field
+			name="table"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_DESC"
+			hidden="true"
+			class="hidden"
+			default="residences"
+		/>
+	</fieldset>
+</form>

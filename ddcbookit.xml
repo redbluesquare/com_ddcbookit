@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" version="3.0" method="upgrade">
+	<name>COM_DDCBOOKIT</name>
+	<creationDate>10/05/2014</creationDate>
+	<author>Darryl</author>
+	<authorEmail>info@digidevcloud.co.uk</authorEmail>
+	<authorUrl>http://www.digidevcloud.co.uk</authorUrl>
+	<copyright>Copyright Info</copyright>
+	<license>License Info</license>
+<<<<<<< HEAD
+	<version>1.1.3</version>
+=======
+	<version>1.1.2</version>
+>>>>>>> branch 'master' of https://github.com/redbluesquare/com_ddcbookit
+	<description>COM_DDCBOOKIT_DESCRIPTION</description>
+
+	<install>
+                <sql>
+                        <file driver="mysql" charset="utf8">sql/install/mysql/install.sql</file>
+                        <file driver="mysql">sql/install/mysql/install.sql</file>
+                        
+                        <file driver="mysqli" charset="utf8">sql/install/mysql/install.sql</file>
+                        <file driver="mysqli">sql/install/mysql/install.sql</file>
+                </sql>
+        </install>
+
+        <!-- SQL query files to execute on uninstallation -->
+        <uninstall>
+                <sql>
+                        <file driver="mysql" charset="utf8">sql/install/mysql/uninstall.sql</file>
+                        <file driver="mysql">sql/install/mysql/uninstall.sql</file>
+
+                        <file driver="mysqli" charset="utf8">sql/install/mysql/uninstall.sql</file>
+                        <file driver="mysqli">sql/install/mysql/uninstall.sql</file>
+                </sql>
+        </uninstall>
+        
+        <!-- SQL files to run on update -->
+        <!--
+        <update>
+                <schemas>
+                        <schemapath type="mysql">sql/updates/mysql</schemapath>
+                        <schemapath type="mysqli">sql/updates/mysql</schemapath>
+                </schemas>
+        </update>
+        -->
+
+	<files folder="site">
+		<folder>assets</folder>
+		<folder>controllers</folder>
+		<folder>helpers</folder>
+		<folder>languages</folder>
+		<folder>models</folder>
+		<folder>tables</folder>
+		<folder>views</folder>
+		<filename>index.html</filename>
+		<filename>ddcbookit.php</filename>
+		<filename>router.php</filename>
+	</files> 
+
+	<scriptfile>install.php</scriptfile>
+
+	<languages folder="site">
+		<language tag="en-GB">languages/en-GB/en-GB.com_ddcbookit.ini</language>
+	</languages>
+
+	<administration>
+		<menu link="option=com_ddcbookit">COM_DDCBOOKIT</menu>
+
+		<files folder="admin">
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>languages</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>sql</folder>
+			<folder>views</folder>
+			<filename>access.xml</filename>
+            <filename>config.xml</filename>
+			<filename>ddcbookit.php</filename>
+			<filename>index.html</filename>
+		</files>  
+		<languages folder="admin">
+			<language tag="en-GB">languages/en-GB/en-GB.com_ddcbookit.ini</language>
+			<language tag="en-GB">languages/en-GB/en-GB.com_ddcbookit.sys.ini</language>
+		</languages>
+	</administration>
+
+</extension>

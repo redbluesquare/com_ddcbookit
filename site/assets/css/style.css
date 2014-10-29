@@ -1,0 +1,60 @@
+.std_apartment_price{display:block;}
+td>.std_apartment_price i{font-size:10px;}
+td>.std_apartment_price>.price{font-size:16px;color:#448800;}
+.std_apartment_price>.price{font-size:18px;color:#8A0829;}
+.no_apartments{color:#8A0829;}
+.apart_slide{position:absolute;max-width:420px;max-height:280px;overflow:hidden;}
+#ddcresslideshow{position: relative;height:200px;overflow:hidden;margin-bottom:10px;}
+#ddcresslideshow > div{position:absolute;width:100%;}
+#ddcresslideshow > div > img{width:95%;max-height:98%;}
+#slideclick{position: relative;height:300px;overflow:hidden;margin-bottom:10px;margin-left:0px;margin-right:0px;}
+#slideclick > div{position:absolute;width:100%;}
+#slideclick > div > img{width:90%;max-height:98%;}
+.slideclick >.slideback>a{display:block;postion:absolute;float:left;top:150px;}
+.slideclick >.slidenext>a{display:block;postion:relative;float:right;top:150px;}
+.slideback{
+                position: absolute;
+                z-index:6;
+                top:30px;
+            }
+            .slideback>a{
+                display: block;
+                width: 100px;
+                height: 100px;
+                padding:100px 0px 100px 20px;
+                text-decoration: none;
+                color: transparent;
+                font-weight: bold;
+                transition: color 0.3s;
+            }
+            .slidenext{
+                position: absolute;
+                z-index:6;
+                top:30px;
+                left:340px;
+            }
+            .slidenext>a{
+                display: block;
+                width: 100px;
+                height: 100px;
+                padding:100px 20px 100px 0px;
+                text-decoration: none;
+                text-align: right;
+                color: transparent;
+                font-weight: bold;
+                transition: color 0.3s;
+            }
+            .slidenext>a:hover, .slideback>a:hover{
+                color: #ffffff;
+            }
+.datesok{color:#08088A;}
+.btn-book{border:#ffffff solid 3px;}
+.price_green{color:#448800;}
+.resbtn{position:relative;top:30px;}
+.tab-pane>.active{display:block;}
+#location{height:300px;}
+#location>#map-canvas {
+        margin: 0;
+        padding: 0;
+        height:90%;
+      }

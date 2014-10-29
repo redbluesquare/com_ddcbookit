@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="service_main">
+		<field
+			name="ddcbookit_services_id"
+			type="text"
+			label="COM_DDCBOOKIT_SERVICE_ID"
+			description="COM_DDCBOOKIT_SERVICE_ID_DESC"
+			readonly="true"
+		/>
+		<field
+			name="service_name"
+			type="text"
+			label="COM_DDCBOOKIT_SERVICE_NAME"
+			description="COM_DDCBOOKIT_SERVICE_NAME_DESC"
+			required="yes"
+			class="span10"
+		/>
+		<field
+			name="service_class"
+			type="text"
+			label="COM_DDCBOOKIT_SERVICE_CLASS"
+			description="COM_DDCBOOKIT_SERVICE_CLASS_DESC"
+			class="span10"
+		/>
+		<field
+			name="service_description"
+			type="editor"
+			label="COM_DDCBOOKIT_SERVICE_DESCRIPTION_LABEL"
+			description="COM_DDCBOOKIT_SERVICE_DESCRIPTION_DESC"
+			filter="safehtml"
+			row="5"
+		/>
+		<field
+			name="table"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_DESC"
+			hidden="true"
+			class="hidden"
+			default="services"
+		/>
+	</fieldset>
+</form>

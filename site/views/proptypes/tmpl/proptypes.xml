@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+        <layout title="COM_DDCBOOKIT_PROPTYPE_VIEW_PROPTYPE_TITLE">
+                <message>
+                        <![CDATA[COM_DDCBOOKIT_PROPTYPE_VIEW_PROPTYPE_DESC]]>
+                </message>
+        </layout>
+
+</metadata>

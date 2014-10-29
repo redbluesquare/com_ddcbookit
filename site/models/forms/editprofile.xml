@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="profilemainfields"
+			label="COM_DEVCLOUD_UPDATE"	>
+		<legend></legend>
+		<field name="project_description" 
+			label ="COM_DEVCLOUD_LEADS_PROJECT_DESCRIPTION" 
+			type="textarea"
+			rows="7"
+			class="span10"
+			required="true"
+		/>
+	</fieldset>
+</form>

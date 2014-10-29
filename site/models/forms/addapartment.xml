@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="addapartment">
+		<field
+			name="apartment_name"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_APARTMENT_NAME_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_NAME_DESC"
+			required="yes"
+		/>
+		<field
+			name="alias"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_DESC"
+		/>
+	</fieldset>
+	<fieldset name="addapartmain">
+		<field
+			name="proptype_title"
+			type="sql"
+			default=""
+			label="COM_DDCBOOKIT_APARTMENT_PROPTYPE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_PROPTYPE_DESC"
+			query="SELECT ddcbookit_proptype_id AS value, proptype_title FROM #__ddcbookit_proptypes"
+		/>
+		<field
+			name="ddcbookit_apartment_id"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_ID_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_ID_DESC"
+			class="hidden"
+			hidden="true"
+		/>
+		<field
+			name="table"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_DESC"
+			hidden="true"
+			class="hidden"
+			default="apartments"
+		/>
+	</fieldset>
+</form>

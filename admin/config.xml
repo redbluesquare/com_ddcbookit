@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <fieldset name="apartment"
+		label="COM_DDCBOOKIT_APARTMENT_STD_OPTIONS"
+		description="COM_DDCBOOKIT_APARTMENT_STD_OPTIONS_DESC">
+		<field name="google_api_key"
+		    type="text"
+		    label="COM_DDCBOOKIT_GAK"
+		    description="COM_DDCBOOKIT_GAK_DESC"
+		/>
+		<field name="required_account" type="radio"
+			default="0"
+			class="btn-group"
+			label="COM_DDCBOOKIT_REQUIRED_ACCOUNT"
+			description="COM_DDCBOOKIT_REQUIRED_ACCOUNT_DESC">
+
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="url_terms"
+		    type="url"
+			default=""
+			label="COM_DDCBOOKIT_URL_TERMS"
+			description="COM_DDCBOOKIT_URL_TERMS_DESC"
+		/>
+    </fieldset>
+	<fieldset name="book_confirmed_options"
+		label="COM_DDCBOOKIT_BOOK_CONFIRMED_OPTIONS"
+		description="COM_DDCBOOKIT_BOOKING_OPTIONS_DESC"
+	>
+		<field name="book_confirmed"
+		    type="text"
+			default=""
+			label="COM_DDCBOOKIT_BOOK_CONFIRMED"
+			description="COM_DDCBOOKIT_BOOK_CONFIRMED_DESC"
+		/>
+		<field name="book_summary_confirmed"
+		    type="editor"
+			cols="5"
+			rows="5"
+			class="span6"
+			label="COM_DDCBOOKIT_BOOK_SUMMARY"
+			description="COM_DDCBOOKIT_BOOK_SUMMARY_DESC">
+		</field>
+		<field name="terms_details_confirmed"
+		    type="editor"
+			cols="20"
+			rows="5"
+			label="COM_DDCBOOKIT_TERMS_DETAILS"
+			description="COM_DDCBOOKIT_TERMS_DETAILS_DESC"
+		>
+		</field>
+		
+	</fieldset>
+	<fieldset name="book_request_options"
+		label="COM_DDCBOOKIT_BOOK_REQUEST_OPTIONS"
+		description="COM_DDCBOOKIT_BOOKING_OPTIONS_DESC"
+	>
+		<field name="request_booking"
+		    type="text"
+			default=""
+			label="COM_DDCBOOKIT_BOOKING_REQUEST"
+			description="COM_DDCBOOKIT_BOOKING_REQUEST_DESC"
+		/>
+		<field name="book_summary_request"
+		    type="editor"
+			cols="5"
+			rows="5"
+			class="span6"
+			label="COM_DDCBOOKIT_BOOK_SUMMARY"
+			description="COM_DDCBOOKIT_BOOK_SUMMARY_DESC">
+		</field>
+		<field name="terms_details_request"
+		    type="editor"
+			cols="20"
+			rows="5"
+			label="COM_DDCBOOKIT_TERMS_DETAILS"
+			description="COM_DDCBOOKIT_TERMS_DETAILS_DESC"
+		>
+		</field>
+	</fieldset>
+	<fieldset name="email"
+		label="COM_DDCBOOKIT_EMAIL_BOOKING_OPTIONS"
+		description="COM_DDCBOOKIT_EMAIL_BOOKING_OPTIONS_DESC"
+	>
+		<field name="email_header"
+		    type="text"
+		    label="COM_DDCBOOKIT_EMAIL_HEADER"
+		    description="COM_DDCBOOKIT_EMAIL_HEADER_DESC"
+		/>
+		<field name="email_header_conf"
+		    type="text"
+		    label="COM_DDCBOOKIT_EMAIL_HEADER_CONF"
+		    description="COM_DDCBOOKIT_EMAIL_HEADER_DESC"
+		/>
+		<field name="book_reference"
+		    type="text"
+		    label="COM_DDCBOOKIT_BOOK_REF"
+		    description="COM_DDCBOOKIT_BOOK_REF_DESC"
+		/>
+		
+	</fieldset>
+	
+	<fieldset name="permissions"
+		description="JCONFIG_PERMISSIONS_DESC"
+		label="JCONFIG_PERMISSIONS_LABEL"
+	>
+
+		<field name="rules" type="rules"
+			component="com_ddcbookit"
+			filter="rules"
+			validate="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			section="component" />
+	</fieldset>
+</config>

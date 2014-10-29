@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="prices_top">
+		<field
+			name="ddcbookit_apartment_price_id"
+			type="text"
+			label="COM_DDCBOOKIT_ID_LABEL"
+			description="COM_DDCBOOKIT_ID_DESC"
+			readonly="true"
+			class="span12"
+		/>
+		<field
+			name="apartment_id"
+			type="sql"
+			label="COM_DDCBOOKIT_APARTMENT_NAME_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_NAME_DESC"
+			query="SELECT am.ddcbookit_apartments_id AS value, CONCAT(cm.residence_name,', ',bm.proptype_title,', ',dm.title) as apartment_id 
+				FROM #__ddcbookit_apartments as am, #__ddcbookit_proptypes as bm, #__ddcbookit_residences as cm, #__categories as dm 
+				WHERE (am.residence_name = cm.ddcbookit_residence_id) AND (am.proptype_id = bm.ddcbookit_proptype_id) AND (am.catid = dm.id)"
+			class="span12"
+		/>
+		<field
+			name="price"
+			type="text"
+			label="COM_DDCBOOKIT_PRICE"
+			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_DESC"
+			class="span12"
+		/>
+		<field
+			name="price"
+			type="text"
+			label="COM_DDCBOOKIT_PRICE"
+			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_DESC"
+			class="span12"
+		/>
+	</fieldset>
+	<fieldset name="prices_top1">
+		<field
+			name="startdate"
+			type="calendar"
+			label="COM_DDCBOOKIT_START_DATE_LABEL"
+			description="COM_DDCBOOKIT_START_DATE_DESC"
+			format="%d-%m-%Y"
+			class="span12"
+		/>
+		<field
+			name="enddate"
+			type="calendar"
+			label="COM_DDCBOOKIT_END_DATE_LABEL"
+			description="COM_DDCBOOKIT_END_DATE_DESC"
+			format="%d-%m-%Y"
+			class="span12"
+		/>
+		<field
+			name="min_days"
+			type="text"
+			label="COM_DDCBOOKIT_MIN_DAYS_LABEL"
+			description="COM_DDCBOOKIT_MIN_DAYS_DESC"
+			required="yes"
+			class="span12"
+		/>
+		<field
+			name="max_days"
+			type="text"
+			label="COM_DDCBOOKIT_MAX_DAYS_LABEL"
+			description="COM_DDCBOOKIT_MAX_DAYS_DESC"
+			required="yes"
+			class="span12"
+		/>
+	</fieldset>
+	<fieldset name="hidden">
+		<field
+			name="table"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_DESC"
+			hidden="true"
+			class="hidden"
+			default="prices"
+		/>
+	</fieldset>
+</form>

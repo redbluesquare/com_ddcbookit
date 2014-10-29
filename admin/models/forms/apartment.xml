@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="apartment_top">
+		<field
+			name="ddcbookit_apartments_id"
+			type="text"
+			label="COM_DDCBOOKIT_ID_LABEL"
+			description="COM_DDCBOOKIT_ID_DESC"
+			readonly="true"
+			class="span12"
+		/>
+		<field
+			name="house_num"
+			type="text"
+			label="COM_DDCBOOKIT_HOUSE_NO_LABEL"
+			description="COM_DDCBOOKIT_HOUSE_NO_DESC"
+			class="span12"
+		/>
+		<field
+			name="catid"
+			type="category"
+			extension="com_ddcbookit"
+			default=""
+			label="COM_DDCBOOKIT_APARTMENT_CATEGORY"
+			description="COM_DDCBOOKIT_APARTMENT_CATEGORY_DESC"
+			class="span12">
+		<option value="0">JOPTION_SELECT_CATEGORY</option>
+		</field>
+	</fieldset>
+	<fieldset name="apartment_left_main">
+		<field
+			name="residence_name"
+			type="sql"
+			default=""
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_NAME_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_NAME_DESC"
+			query="SELECT ddcbookit_residence_id AS value, residence_name FROM #__ddcbookit_residences"
+			class="span10"
+		/>
+		<field
+			name="proptype_id"
+			type="sql"
+			label="COM_DDCBOOKIT_PROPTYPE_LABEL"
+			description="COM_DDCBOOKIT_PROPTYPE_DESC"
+			query="SELECT ddcbookit_proptype_id AS value, proptype_title as proptype_id FROM #__ddcbookit_proptypes"
+<<<<<<< HEAD
+=======
+		/>
+	</fieldset>
+	<fieldset name="apartment_head">
+		<field
+			name="apartment_name"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_APARTMENT_NAME_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_NAME_DESC"
+			required="yes"
+			class="span12"
+		/>
+		<field
+			name="alias"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_DESC"
+			class="span12"
+>>>>>>> branch 'master' of https://github.com/redbluesquare/com_ddcbookit
+		/>
+	</fieldset>
+	<fieldset name="apartment_main">
+		<field
+			name="num_of_apartments"
+			type="text"
+			label="COM_DDCBOOKIT_NUM_OF_APARTMENTS_LABEL"
+			description="COM_DDCBOOKIT_NUM_OF_APARTMENTS_DESC"
+		/>
+		<field
+			name="max_adults"
+			type="integer"
+			default="1"
+			label="COM_DDCBOOKIT_MAX_ADULTS_LABEL"
+			description="COM_DDCBOOKIT_MAX_ADULTS_DESC"
+			first="0"
+			last="10"
+			step="1"
+		/>
+		<field
+			name="max_kids"
+			type="integer"
+			default="1"
+			label="COM_DDCBOOKIT_MAX_KIDS_LABEL"
+			description="COM_DDCBOOKIT_MAX_KIDS_DESC"
+			first="0"
+			last="10"
+			step="1"
+		/>
+		<field
+			name="num_of_beds"
+			type="integer"
+			default="1"
+			label="COM_DDCBOOKIT_NO_OF_BEDS_LABEL"
+			description="COM_DDCBOOKIT_NO_OF_BEDS_DESC"
+			first="0"
+			last="10"
+			step="1"
+		/>
+		<field
+			name="min_stay"
+			type="text"
+			default="2"
+			label="COM_DDCBOOKIT_MIN_STAY_LABEL"
+			description="COM_DDCBOOKIT_MIN_STAY_DESC"
+			
+		/>
+		<field name="state" type="list" label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
+			filter="intval" size="1" default="2"
+		>
+			<option value="1">
+				JCONFIRM_IMMEDIATE</option>
+			<option value="2">
+				JREQUEST_CONFIRM</option>
+			<option value="0">
+				JUNPUBLISHED</option>
+			<option value="-2">
+				JTRASHED</option>
+		</field>
+		<field
+			name="table"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_DESC"
+			hidden="true"
+			class="hidden"
+			default="apartments"
+		/>
+		<field
+			name="hits"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_DESC"
+			hidden="true"
+			class="hidden"
+			default="0"
+		/>
+	</fieldset>
+</form>

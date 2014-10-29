@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="addtype">
+		<field
+			name="proptype_title"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_TYPE_TITLE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_TYPE_TITLE_DESC"
+			required="yes"
+		/>
+			<field
+			name="proptype_description"
+			type="textarea"
+			label="COM_DDCBOOKIT_APARTMENT_TYPE_DESCRIPTION_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_TYPE_DESCRIPTION_DESC"
+			required="yes"
+			cols="10"
+			rows="5"
+		/>
+		<field
+			name="bookit_type_id"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_TYPE_ID_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_TYPE_ID_DESC"
+			class="hidden"
+		/>
+		<field
+			name="proptype"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_TYPE_ID_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_TYPE_ID_DESC"
+			hidden="true"
+			class="hidden"
+		/>
+	</fieldset>
+</form>

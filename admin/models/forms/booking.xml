@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="booking_top">
+		<field
+			name="ddcbookit_bookings_id"
+			type="text"
+			label="COM_DDCBOOKIT_BOOKING_ID"
+			description="COM_DDCBOOKIT_SERVICE_ID_DESC"
+			readonly="true"
+			class="span12"
+		/>
+		<field
+			name="apartment_id"
+			type="sql"
+			label="COM_DDCBOOKIT_APARTMENT"
+			description="COM_DDCBOOKIT_SERVICE_CLASS_DESC"
+			query="SELECT a.ddcbookit_apartments_id AS value, CONCAT(a.house_num,' ',res.residence_name,', ',p.proptype_title) as apartment_id FROM #__ddcbookit_apartments as a 
+					LEFT JOIN #__ddcbookit_residences as res on a.residence_name = res.ddcbookit_residence_id
+					LEFT JOIN #__ddcbookit_proptypes as p on a.proptype_id = p.ddcbookit_proptype_id"
+			default=""
+			class="span12"
+		/>
+	</fieldset>
+	<fieldset name="booking_main">
+		<field
+			name="contact_name"
+			type="text"
+			label="COM_DDCBOOKIT_CONTACT_NAME"
+			description="COM_DDCBOOKIT_SERVICE_CLASS_DESC"
+			class="span6"
+		/>
+		<field
+			name="contact_tel"
+			type="text"
+			label="COM_DDCBOOKIT_CONTACT_TEL"
+			description="COM_DDCBOOKIT_SERVICE_CLASS_DESC"
+			class="span6"
+		/>
+		<field
+			name="contact_email"
+			type="text" 
+			label="COM_DDCBOOKIT_CONTACT_EMAIL"
+			description="COM_DDCBOOKIT_SERVICE_CLASS_DESC"
+			class="span6"
+		/>
+	</fieldset>
+	<fieldset name="booking_dateinfo">
+		<field
+			name="checkin"
+			type="calendar"
+			label="COM_DDCBOOKIT_CHECKIN"
+			description="COM_DDCBOOKIT_SERVICE_CLASS_DESC"
+			format="%d-%m-%Y"
+			class="span7"
+		/>
+		<field
+			name="checkout"
+			type="calendar"
+			label="COM_DDCBOOKIT_CHECKOUT"
+			description="COM_DDCBOOKIT_SERVICE_CLASS_DESC"
+			format="%d-%m-%Y"
+			class="span7"
+		/>
+	</fieldset>
+	<fieldset name="pplstaying">
+		<field
+			name="num_adults"
+			type="integer"
+			label="COM_DDCBOOKIT_NUM_ADULTS"
+			description="COM_DDCBOOKIT_NUM_ADULTS_DESC"
+			class="span10"
+			default="2"
+			first="1"
+			last="10"
+			step="1"
+		/>
+		<field
+			name="num_kids"
+			type="integer"
+			label="COM_DDCBOOKIT_NUM_KIDS"
+			description="COM_DDCBOOKIT_NUM_KIDS_DESC"
+			class="span10"
+			first="0"
+			last="10"
+			step="1"
+		/>
+		</fieldset>
+	<fieldset name="booking_resinfo">
+		<field name="status" type="list" label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
+			filter="intval" size="1" default="1"
+		>
+			<option value="1">
+				CREATED</option>
+			<option value="0">
+				CANCELLED</option>
+			<option value="2">
+				CONFIRMED</option>
+		</field>
+		<field
+			name="user_id"
+			type="text"
+			label="COM_DDCBOOKIT_USER_ID"
+			description="COM_DDCBOOKIT_USER_ID_DESC"
+			hidden="true"
+			class="hidden"
+		/>
+		<field
+			name="table"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_DESC"
+			hidden="true"
+			class="hidden"
+			default="bookings"
+		/>
+		<field
+			name="checkbook"
+			type="text"
+			label="COM_DDCBOOKIT_APARTMENT_CHECK_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_CHECK_DESC"
+			hidden="true"
+			class="hidden"
+			default="1"
+		/>
+	</fieldset>
+	<fieldset name="price">
+		<field
+			name="booked_price"
+			type="text"
+			label="COM_DDCBOOKIT_PRICE"
+			description="COM_DDCBOOKIT_PRICE_DESC"
+		/>
+	</fieldset>
+</form>
