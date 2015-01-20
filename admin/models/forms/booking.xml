@@ -12,7 +12,7 @@
 		<field
 			name="apartment_id"
 			type="sql"
-			label="COM_DDCBOOKIT_APARTMENT"
+			label="COM_DDCBOOKIT_APARTMENT_NAME_LABEL"
 			description="COM_DDCBOOKIT_SERVICE_CLASS_DESC"
 			query="SELECT a.ddcbookit_apartments_id AS value, CONCAT(a.house_num,' ',res.residence_name,', ',p.proptype_title) as apartment_id FROM #__ddcbookit_apartments as a 
 					LEFT JOIN #__ddcbookit_residences as res on a.residence_name = res.ddcbookit_residence_id
@@ -66,7 +66,7 @@
 		<field
 			name="num_adults"
 			type="integer"
-			label="COM_DDCBOOKIT_NUM_ADULTS"
+			label="COM_DDCBOOKIT_NUM_ADULTS_LABEL"
 			description="COM_DDCBOOKIT_NUM_ADULTS_DESC"
 			class="span10"
 			default="2"
@@ -77,8 +77,8 @@
 		<field
 			name="num_kids"
 			type="integer"
-			label="COM_DDCBOOKIT_NUM_KIDS"
-			description="COM_DDCBOOKIT_NUM_KIDS_DESC"
+			label="COM_DDCBOOKIT_NUM_CHILDREN_LABEL"
+			description="COM_DDCBOOKIT_NUM_CHILDREN_DESC"
 			class="span10"
 			first="0"
 			last="10"
@@ -90,12 +90,10 @@
 			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
 			filter="intval" size="1" default="1"
 		>
-			<option value="1">
-				CREATED</option>
-			<option value="0">
-				CANCELLED</option>
-			<option value="2">
-				CONFIRMED</option>
+			<option value="1">CREATED</option>
+			<option value="0">CANCELLED</option>
+			<option value="2">CONFIRMED</option>
+			<option value="3">PAID</option>
 		</field>
 		<field
 			name="user_id"

@@ -10,6 +10,7 @@ class DdcbookitModelsResidences extends DdcbookitModelsDefault
   **/
   var $_apartment_id    	= null;
   var $_residence_id		= null;
+  var $_query				= null;
   var $_cat_id		    	= null;
   var $_pagination  		= null;
   var $_published   		= 1;
@@ -20,6 +21,7 @@ class DdcbookitModelsResidences extends DdcbookitModelsDefault
   {
   	$app = JFactory::getApplication();
 	$this->_residence_id = $app->input->get('residence_id', null);
+	$this->_query = $app->input->get('query', null);
 	$this->_cat_id = $app->input->get('id', null);
   	  	
     parent::__construct();       
@@ -50,6 +52,28 @@ class DdcbookitModelsResidences extends DdcbookitModelsDefault
   	}
    return $query;
   }
+  
+   function updatetable()
+   {
+  	$db = JFactory::getDBO();
+  	$db->setQuery( "
+						CREATE TABLE IF NOT EXISTS #__ddc_payments (
+  							ddc_payment_id int(11) NOT NULL AUTO_INCREMENT,
+  							ref varchar(100) NOT NULL,
+  							ref_id int(11) NOT NULL,
+							token text NOT NULL,
+  							PRIMARY KEY (ddc_payment_id),
+  							KEY ref_id (ref_id)
+						)ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+  			" );
+
+  	if (!$db->query()) {
+  		$this->setError($db->getErrorMsg());
+  		return false;
+  	}
+
+   }
+  
   function addservice()
   {
   	$app = JFactory::getApplication();

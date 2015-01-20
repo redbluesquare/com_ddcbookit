@@ -45,7 +45,7 @@ class DdcbookitViewsPricesHtml extends JViewHtml
         // Get the toolbar object instance
         $bar = JToolBar::getInstance('toolbar');
 
-        JToolBarHelper::title(JText::_('COM_DDCBOOKIT_MANAGER_PROPTYPES'));
+        JToolBarHelper::title(JText::_('COM_DDCBOOKIT_MANAGER_APARTMENT_PRICES'));
         JToolBarHelper::addNew('price.add');
                
         if ($canDo->get('core.admin'))
@@ -61,5 +61,6 @@ class DdcbookitViewsPricesHtml extends JViewHtml
     	JToolBarHelper::title($isNew ? JText::_('COM_DDCBOOKIT_MANAGER_PRICE_NEW'): JText::_('COM_DDCBOOKIT_MANAGER_PRICE_EDIT'));
     	JToolBarHelper::save('price.save');
     	JToolBarHelper::cancel('price.cancel', $isNew ? 'JTOOLBAR_CANCEL': 'JTOOLBAR_CLOSE');
+    	JToolBarHelper::custom('price.delete','','','Delete',false);
     }
 }

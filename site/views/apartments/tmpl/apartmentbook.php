@@ -26,24 +26,64 @@ if($app->input->get('datecheckin',null)==null){
 if($app->input->get('datecheckout',null)==null){
 	$this->_checkout = $session->get('checkout');
 }else{$this->_checkout = $app->input->get('datecheckout',null);}
-$adults= $session->get('adults');
-$kids= $session->get('kids');
-$proptypes= $session->get('proptype');
-$checkin = date_create($this->_checkin);
-$checkout = date_create($this->_checkout);
-$interval = date_diff($checkin, $checkout);
-$stayindays = $interval->format('%a');
-if($stayindays>7)
+if($this->_checkin==null)
 {
-	$sidays = 7;
-	$timeframe = JText::_('COM_DDCBOOKIT_PER_WEEK');
+	$checkin = JHtml::date("","Y-m-d");
 }
 else
 {
-	$sidays = 1;
-	$timeframe = JText::_('COM_DDCBOOKIT_PER_NIGHT');
+	$checkin = $this->_checkin;
 }
-$price = $this->apartments->price;
+if($this->_checkout==null)
+{
+	$checkout = JHtml::date((time() + ($this->apartments->min_stay * 24 * 60 * 60)),"Y-m-d");
+}
+else
+{
+	$checkout = $this->_checkout;
+}
+$adults= $session->get('adults');
+echo $adults."<br/>";
+$children= $session->get('children');
+$proptypes= $session->get('proptype');
+	$ap = DdcbookitModelsDefault::apartment_price($this->apartments->ddcbookit_apartments_id,$checkin,$checkout);
+	if($ap[2]==true)
+	{
+		$totalprice = $ap[0];
+	}
+	else
+	{
+		$totalprice = "POA";
+	}
+
+
+	if($ap[1] > 7)
+	{
+		$pricetext = JText::_('COM_DDCBOOKIT_PRICE_PER_WEEK');
+		if($totalprice!="POA")
+		{
+			$partialprice = number_format($totalprice/$ap[1]*7,2);
+			$totalprice = number_format($totalprice,2);
+		}
+		else
+		{
+			$partialprice=$totalprice;
+		}
+	}
+	else
+	{
+		$pricetext = JText::_('COM_DDCBOOKIT_PRICE_PER_NIGHT');
+		if($totalprice=="POA")
+		{
+			$partialprice=$totalprice;
+		}
+		else
+		{
+			$partialprice = number_format($totalprice/$ap[1],2);
+			$totalprice = number_format($totalprice,2);
+		}
+	
+	}	
 ?>
 <div class="row-fluid">
 	<div class="span7">
@@ -69,28 +109,20 @@ $price = $this->apartments->price;
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_DDCBOOKIT_DURATION').': ';?></td>
-					<td><?php echo $stayindays.' '.JText::_('COM_DDCBOOKIT_NIGHTS');?></td>
-				</tr>
-				<tr>
-					<td><?php echo JText::_('COM_DDCBOOKIT_NUM_ADULTS').': ';?></td>
-					<td><?php echo $adults;?></td>
-				</tr>
-				<tr>
-					<td><?php echo JText::_('COM_DDCBOOKIT_NUM_KIDS').': ';?></td>
-					<td><?php echo $kids;?></td>
+					<td><?php echo $ap[1].' '.JText::_('COM_DDCBOOKIT_NIGHTS');?></td>
 				</tr>
 				<tr>
 					<td><?php echo JText::_('COM_DDCBOOKIT_PRICE').': ';?></td>
-					<td><span style="font-weight:bold;color:#088A4B;"><?php echo '&pound; '.number_format(($sidays*$price),2);?></span> <?php echo $timeframe; ?><br />
-					<i><?php echo JText::_('COM_DDCBOOKIT_TOTAL_PRICE').": "; ?><?php echo '&pound; '.number_format(($stayindays*$price),2);?></i></td>
+					<td><span style="font-weight:bold;color:#088A4B;"><?php echo '&pound; '.$partialprice;?></span> <?php echo $pricetext; ?><br />
+					<i><?php echo JText::_('COM_DDCBOOKIT_TOTAL_PRICE').": "; ?><?php echo '&pound; '.$totalprice;?></i></td>
 				</tr>
 			</tbody>
 		</table>
 		<hr />
 		<h3><?php echo JText::_('COM_DDCBOOKIT_SERVICES_AND_FACILITIES')?></h3>
-		<table class="table"  style="font-size:11px;">
+		<table class="table">
 			<tbody>
-		<?php $num_services=count($this->services);
+		<?php $num_services=count($services);
 			  $cols = 2;
 			  $rows = ceil($num_services/$cols);
 			  $i = 0;
@@ -99,14 +131,12 @@ $price = $this->apartments->price;
 			  	echo '<tr>';
 				for($svce=0;$svce<$cols;$svce++)
 				{
-					if($i<$num_services):
-					if(in_array($this->services[$i]->ddcbookit_services_id,$services))
-					{?>
-						<?php if($i<$num_services):?>
-							<td width="50%"><i class="icon-check"></i><?php echo ' '.$this->services[$i]->service_name; ?></td>
-						<?php $i++;
-						endif; ?>	
-		<?php 		}
+					if($i<$num_services): ?>
+						<td><i class="icon-check"></i><?php echo ' '.$this->services[$services[$i]-1]->service_name; ?></td>
+				<?php	$i++;	
+					else:
+						echo "<td></td>";
+						$i++;
 					endif;
 				}
 				echo '</tr>';
@@ -125,6 +155,22 @@ $price = $this->apartments->price;
 			<label id="labelcontact_tel" for=""><?php echo JText::_('COM_DDCBOOKIT_CONTACT_TEL');?></label><input name="contact_tel" type="text" value=""  class="required" /><br />
 			<label id="labelcontact_email" for=""><?php echo JText::_('COM_DDCBOOKIT_CONTACT_EMAIL');?></label><input name="contact_email" type="email" value=""  class="required" /><br />
 			<label id="labelcompany" for=""><?php echo JText::_('COM_DDCBOOKIT_COMPANY');?></label><input name="company" type="text" value="" /><br />
+			<label id="labelcompany" for=""><?php echo JText::_('COM_DDCBOOKIT_NUM_ADULTS');?></label><select name="num_adults">
+  					<?php if(($adults==0) Or (!isset($adults))){$adults=2;}
+  					for($i=1;$i<9;$i++)
+  					{
+  						if($i==(int)$adults){$selected= "selected=\"selected\"";}else{$selected=null;}
+  						echo "<option value=\"$i\" $selected >$i</option>";
+  					}?>
+				</select><br />
+			<label id="labelcompany" for=""><?php echo JText::_('COM_DDCBOOKIT_NUM_CHILDREN');?></label><select name="num_children">
+  					<?php if(($children==0) Or (!isset($children))){$children=0;}
+  					for($i=0;$i<9;$i++)
+  					{
+  						if($i==(int)$children){$selected= "selected=\"selected\"";}else{$selected=null;}
+  						echo "<option value=\"$i\" $selected >$i</option>";
+  					}?>
+				</select><br />
 			
 			<span class="btn" data-toggle="collapse" data-target="#travdetails">Enter Travel Details</span><br />
 			<div id="travdetails" class="collapse">
@@ -142,15 +188,12 @@ $price = $this->apartments->price;
 			</select> <br />
 			<div style="display:none;"><?php echo JHTML::calendar($this->_checkin,'checkin','checkin','%Y-%m-%d');?></div>
 			<div style="display:none;"><?php echo JHTML::calendar($this->_checkout,'checkout','checkout','%Y-%m-%d');?></div>
-			<input name="num_adults" type="hidden" value="<?php echo $adults; ?>" /><br />
-			<input name="num_kids" type="hidden" value="<?php echo $kids; ?>" />
-			
-			<input name="residence_id" type="hidden" value="<?php echo $this->residence->residence_name; ?>" />
-			<input name="booked_price" type="hidden" value="<?php echo number_format(($stayindays*$price),2); ?>" />
+			<input name="booked_price" type="hidden" value="<?php echo $totalprice; ?>" />
 			<input name="user_id" type="hidden" value="<?php echo JFactory::getUser()->id;?>" />
 			<input name="table" type="hidden" value="<?php echo 'booking';?>" />
 			<input name="apartment_id" type="hidden" value="<?php echo $this->apartments->ddcbookit_apartments_id; ?>" />
 			<button class="btn btn-primary validate"><?php echo JText::_('COM_DDCBOOKIT_CONFIRM_BOOKING'); ?></button><br />
+			<?php echo JHtml::_('form.token'); ?>
 		</form>
 	</div>
 </div>

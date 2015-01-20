@@ -11,7 +11,7 @@ class DdcbookitModelsDefault extends JModelBase
   protected $id           = null;
   protected $catid        = null;
   protected $limitstart   = 0;
-  protected $limit        = 100;
+  protected $limit        = 500;
  
   function __construct()
   {
@@ -53,7 +53,6 @@ class DdcbookitModelsDefault extends JModelBase
   	if($this->data['table']=='bookings'){
   		$row->checkin = JHtml::date($this->data['checkin'],'Y-m-d');
   		$row->checkout = JHtml::date($this->data['checkout'],'Y-m-d');
-  		$row->booked_price = DdcbookitModelsDefault::apartmentprice($this->data['apartment_id'],$this->data['checkin'],$this->data['checkout']);
   	}
   	if($this->data['table']=='featuredaps'){
   		$row->startdate = JHtml::date($this->data['startdate'],'Y-m-d');
@@ -62,6 +61,11 @@ class DdcbookitModelsDefault extends JModelBase
   	if($this->data['table']=='prices'){
   		$row->startdate = JHtml::date($this->data['startdate'],'Y-m-d');
   		$row->enddate = JHtml::date($this->data['enddate'],'Y-m-d');
+  	}
+  	if($this->data['table']=='poi'){
+  		if($this->data['alias']==null){
+  			$row->alias = JFilterOutput::stringURLSafe($this->data['title']);
+  		}
   	}
   	$row->modified = $date;
   	if ( !$row->created )
@@ -79,9 +83,29 @@ class DdcbookitModelsDefault extends JModelBase
   	{
   		return false;
   	}
-  
+
   	return $row;
+  	
+  	
+  }
   
+  public function delete($data = null)
+  {
+  	$jinput = JFactory::getApplication()->input;
+  	$this->data = $jinput->get('jform', array(),'array');
+  	$row = JTable::getInstance($this->data['table'],'Table');
+  	
+  	if($this->data['table'] == "prices")
+  	{
+  		$id = $this->data['ddcbookit_apartment_price_id'];
+  	}
+  	
+  	if(!$row->delete( $id ))
+  	{
+  		return false;
+  	}
+  	
+  	return $row;
   }
   
   /**
@@ -227,49 +251,166 @@ class DdcbookitModelsDefault extends JModelBase
   }
   
   
-  //get the price of an apartment
-	static function apartmentprice($apartment_id, $checkin, $checkout)
+/**
+   * Gets a list of all prices on an apartment and then filters to return the total price and days.
+   *
+   * @param		integer		$apartment_id		The apartment.
+   * @param		datetime	$checkin			The checkin date in sql format Y-m-d.
+   * @param		datetime	$checkout			The checkout date in sql format Y-m-d.
+   * @param   	string   	$query       		The query.
+   * @param		double		$total_price		The final price.
+   * @param		integer		$total_days			The total nights stay.
+   *
+   * @return 	array		The price and days in an array result.
+   */
+  static public function apartment_price($apartment_id, $checkin, $checkout)
   {
-//   	$checkinA = date_create($checkin);
-//   	$checkoutA = date_create($checkout);
-//   	$interval = date_diff($checkinA, $checkoutA);
-//   	$stayindays = $interval->format('%a');
-//   	$checkprices = new DdcbookitModelsApartments();
+  	$apartment_price 	= null;
+  	$daysbeforedisc 	= null;
+  	$discount_price 	= array();
+  	$timeframedays 		= null;
+  	$fulltf				= false;
   	
-//   	$aparts = $checkprices->listItems();
-//   	$c=0;
-//   	while($aparts[$c]->ddcbookit_apartments_id!=$apartment_id)
-//   	{
-//   		$c++;
-//   	}
-//   	$residence = $aparts[$c]->res_id;
-//   	$proptype = $aparts[$c]->ddcbookit_proptype_id;
-//   	$category = (int)$aparts[$c]->catid;
+  	$modelPrices = new DdcbookitModelsPrices();
+  	$prices = $modelPrices->listItems($apartment_id, $checkin, $checkout);
+  	$checkinA = date_create($checkin);
+  	$checkoutA = date_create($checkout);
+  	$interval = date_diff($checkinA, $checkoutA);
+  	$totaldays = $interval->format('%a');
+  	$totaldays = (int)$totaldays;
+  	for($i=0;$i<count($prices);$i++)
+  	{
+  		if(( $checkin >= $prices[$i]->startdate ) And ( $checkout <= $prices[$i]->enddate ))
+  		{
+  			if(($prices[$i]->days_before_discount!=0))
+  			{
+  				if($totaldays > $prices[$i]->days_before_discount)
+  				{
+  					$apartment_price += $prices[$i]->price*$prices[$i]->days_before_discount;
+  					$apartment_price += $prices[$i]->discount_price*($totaldays-$prices[$i]->days_before_discount);
+  					$daysbeforedisc = $prices[$i]->days_before_discount;
+  				}
+  				else
+  				{
+  					$apartment_price += $prices[$i]->price*$totaldays;
+  				}
+
+  			}
+  			else
+  			{
+  				if(($prices[$i]->max_days >= "'.$totaldays.'") || ($prices[$i]->min_days <= "'.$totaldays.'"))
+  				{
+  					$apartment_price += $prices[$i]->price*$totaldays;
+  				}
+  				
+  			}
+			$fulltf = true;
+  		}
+  		if(($checkin >= $prices[$i]->startdate) And ($checkin <= $prices[$i]->enddate) And ($checkout > $prices[$i]->enddate) )
+  		{
+  			$intervaldays = null;
+  			$c_in = date_create($checkin);
+  			$c_out = date_create($prices[$i]->enddate);
+  			$intervaldays = date_diff($c_in, $c_out);
+  			$intervaldays = $intervaldays->format('%a');
+  			$intervaldays = $intervaldays+1;
+  			if( ($prices[$i]->days_before_discount!=0) )
+  			{
+  				if($prices[$i]->days_before_discount < $intervaldays)
+  				{
+  					$apartment_price += $prices[$i]->price*$prices[$i]->days_before_discount;
+  					$apartment_price += $prices[$i]->discount_price*($intervaldays-$prices[$i]->days_before_discount);
+  					$daysbeforedisc = $prices[$i]->days_before_discount;
+  				}
+  				elseif($prices[$i]->days_before_discount==$intervaldays)
+  				{
+  					$apartment_price += $prices[$i]->price*$prices[$i]->days_before_discount;
+  					$daysbeforedisc = $prices[$i]->days_before_discount;
+  				}
+  				else 
+  				{
+  					$apartment_price += $prices[$i]->price*$intervaldays;
+  					$daysbeforedisc = $intervaldays;
+  				}
+ 			}
+ 			else 
+ 			{
+ 				$apartment_price += $prices[$i]->price*$intervaldays;
+ 			}
+ 			$fulltf = false;
+  		}
+  		if(( $checkin < $prices[$i]->startdate ) And ( $checkout > $prices[$i]->enddate ))
+  		{
+  			$intervaldays = null;
+  			$c_in = date_create($prices[$i]->startdate);
+  			$c_out = date_create($prices[$i]->enddate);
+  			$intervaldays = date_diff($c_in, $c_out);
+  			$intervaldays = $intervaldays->format('%a');
+  			$intervaldays = $intervaldays+1;
+  			
+  			if(($prices[$i]->days_before_discount!=0))
+  			{
+  				if(($prices[$i]->days_before_discount-$daysbeforedisc)<$intervaldays)
+  				{
+  					$apartment_price += $prices[$i]->price*($prices[$i]->days_before_discount-$daysbeforedisc);
+  					$apartment_price += $prices[$i]->discount_price*($intervaldays-($prices[$i]->days_before_discount-$daysbeforedisc));
+  					$daysbeforedisc = $prices[$i]->days_before_discount;
+  				}
+  				elseif(($prices[$i]->days_before_discount-$daysbeforedisc)==$intervaldays)
+  				{
+  					$apartment_price += $prices[$i]->price*($prices[$i]->days_before_discount-$daysbeforedisc);
+  					$daysbeforedisc = $prices[$i]->days_before_discount;
+  				}
+  				else
+  				{
+  					$apartment_price += $prices[$i]->price*$intervaldays;
+  					$daysbeforedisc += $intervaldays;
+  				}
+  			}
+  			else 
+  			{
+  				$apartment_price += $prices[$i]->price*$intervaldays;
+  			}
+  		}
+  		
+  		if(( $checkin < $prices[$i]->startdate ) And ( $checkout >= $prices[$i]->startdate ) And ( $checkout <= $prices[$i]->enddate ))
+  		{
+  			$intervaldays = null;
+  			$c_in = date_create($prices[$i]->startdate);
+  			$c_out = date_create($checkout);
+  			$intervaldays = date_diff($c_in, $c_out);
+  			$intervaldays = $intervaldays->format('%a');
+  			
+  			
+  			if(($prices[$i]->days_before_discount!=0))
+  			{
+  				if(($prices[$i]->days_before_discount-$daysbeforedisc)<$intervaldays)
+  				{
+  					$apartment_price += $prices[$i]->price*($prices[$i]->days_before_discount-$daysbeforedisc);
+  					$apartment_price += $prices[$i]->discount_price*($intervaldays-($prices[$i]->days_before_discount-$daysbeforedisc));
+  					$daysbeforedisc = $prices[$i]->days_before_discount;
+  				}
+  					elseif(($prices[$i]->days_before_discount-$daysbeforedisc)==$intervaldays)
+  				{
+  					$apartment_price += $prices[$i]->price*($prices[$i]->days_before_discount-$daysbeforedisc);
+  					$daysbeforedisc = $prices[$i]->days_before_discount;
+  				}
+  				else
+  				{
+  					$apartment_price += $prices[$i]->discount_price*$intervaldays;
+  				}
+  			}
+  			else 
+  			{
+  				$apartment_price += $prices[$i]->price*$intervaldays;
+  			}
+  			$fulltf = true;
+  		}
+  	}
   	
-//   	$check = false;
-//   	$getprice = $checkprices->getPrices();
-//   	$numprices=count($getprice);
-//   	$i=0;
-//   	while($check==false){
-//   		if($getprice[$i]->residence_id==$residence){
-//   			if($getprice[$i]->proptype_id==$proptype){
-//   				if((int)$getprice[$i]->catid==$category){
-//   					if($stayindays<=$getprice[$i]->max_days){
-//   						if(JHtml::date($checkin,"Y-m-d")<JHtml::date($getprice[$i]->enddate,"Y-m-d")){
-//  	 						$price=$getprice[$i]->price;
-//   							$check=true;
-//   						}
-//   					}
-//   				}
-//   			}
-//   		}
-//   		$i++;
-//   		if($i>$numprices){
-//   			//$price=1;
-//   			$check=true;
-//   		}
-//   	}
-//   	return $price;
+  	$results = array($apartment_price,$totaldays,$fulltf);
+  	
+  	return $results;
   }
   
 }

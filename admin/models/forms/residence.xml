@@ -80,6 +80,14 @@
 			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_MAIN_IMAGE_LABEL"
 			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_MAIN_IMAGE_DESC"
 		/>
+		<field
+			name="nearest_poi"
+			type="sql"
+			default="0"
+			label="COM_DDCBOOKIT_POI_LABEL"
+			description="COM_DDCBOOKIT_POI_DESC"
+			query="SELECT ddcbookit_poi_id AS value, title as nearest_poi FROM #__ddcbookit_poi"
+		/>
 		<field name="state" type="list" label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
 			filter="intval" size="1" default="1"
@@ -96,8 +104,8 @@
 		<field
 			name="table"
 			type="text"
-			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_LABEL"
-			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_DESC"
+			label="COM_DDCBOOKIT_RESIDENCE_TABLE_LABEL"
+			description="COM_DDCBOOKIT_RESIDENCE_TABLE_DESC"
 			hidden="true"
 			class="hidden"
 			default="residences"

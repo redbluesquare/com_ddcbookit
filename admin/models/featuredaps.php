@@ -76,6 +76,10 @@ class DdcbookitModelsFeaturedaps extends DdcbookitModelsDefault
   	{
   		$query->where('f.ddcbookit_featuredapartment_id = "'.$this->_featured_id.'"');
   	}
+  	if($this->_published!=null)
+  	{
+  		$query->where('residence.state = "'.$this->_published.'"');
+  	}
    return $query;
   }
   

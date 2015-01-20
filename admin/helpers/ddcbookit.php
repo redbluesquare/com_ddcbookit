@@ -40,6 +40,8 @@ class DdcbookitHelpersDdcbookit
 	
 	public static function addSubmenu($submenu)
 	{
+		JSubMenuHelper::addEntry(JText::_('COM_DDCBOOKIT_DASHBOARD'),
+		'index.php?option=com_ddcbookit&view=dashboard', $submenu == 'dashboard');
 		JSubMenuHelper::addEntry(JText::_('COM_DDCBOOKIT_APARTMENT_RESIDENCES'),
 		'index.php?option=com_ddcbookit&view=residences', $submenu == 'residences');
 		JSubMenuHelper::addEntry(JText::_('COM_DDCBOOKIT_APARTMENTS'),
@@ -56,6 +58,8 @@ class DdcbookitHelpersDdcbookit
 		'index.php?option=com_ddcbookit&view=bookings', $submenu == 'bookings');
 		JSubMenuHelper::addEntry(JText::_('COM_DDCBOOKIT_FEATURED_APARTMENTS'),
 		'index.php?option=com_ddcbookit&view=featuredaps', $submenu == 'featured apartments');
+		JSubMenuHelper::addEntry(JText::_('COM_DDCBOOKIT_POI'),
+		'index.php?option=com_ddcbookit&view=pois', $submenu == 'poi');
 		// set some global property
 		$document = JFactory::getDocument();
 

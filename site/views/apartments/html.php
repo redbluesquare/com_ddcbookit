@@ -38,6 +38,10 @@ class DdcbookitViewsApartmentsHtml extends JViewHtml
     					center: latlng
   					}
   					map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+     				google.maps.event.trigger(map, \'resize\');
+					jQuery(\'a[href="#location"]\').on(\'shown\', function(e) {
+            			google.maps.event.trigger(map, \'resize\');
+        			});
      			}
      			function codeAddress() {
      				var address = "'.$this->residence->post_code.', UK";

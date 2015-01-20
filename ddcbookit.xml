@@ -7,20 +7,13 @@
 	<authorUrl>http://www.digidevcloud.co.uk</authorUrl>
 	<copyright>Copyright Info</copyright>
 	<license>License Info</license>
-<<<<<<< HEAD
-	<version>1.1.3</version>
-=======
-	<version>1.1.2</version>
->>>>>>> branch 'master' of https://github.com/redbluesquare/com_ddcbookit
+	<version>1.1.8</version>
 	<description>COM_DDCBOOKIT_DESCRIPTION</description>
 
 	<install>
                 <sql>
                         <file driver="mysql" charset="utf8">sql/install/mysql/install.sql</file>
                         <file driver="mysql">sql/install/mysql/install.sql</file>
-                        
-                        <file driver="mysqli" charset="utf8">sql/install/mysql/install.sql</file>
-                        <file driver="mysqli">sql/install/mysql/install.sql</file>
                 </sql>
         </install>
 
@@ -29,21 +22,17 @@
                 <sql>
                         <file driver="mysql" charset="utf8">sql/install/mysql/uninstall.sql</file>
                         <file driver="mysql">sql/install/mysql/uninstall.sql</file>
-
-                        <file driver="mysqli" charset="utf8">sql/install/mysql/uninstall.sql</file>
-                        <file driver="mysqli">sql/install/mysql/uninstall.sql</file>
                 </sql>
         </uninstall>
         
         <!-- SQL files to run on update -->
-        <!--
         <update>
+            <sql>
                 <schemas>
                         <schemapath type="mysql">sql/updates/mysql</schemapath>
-                        <schemapath type="mysqli">sql/updates/mysql</schemapath>
                 </schemas>
+            </sql>
         </update>
-        -->
 
 	<files folder="site">
 		<folder>assets</folder>
@@ -70,6 +59,7 @@
 		<files folder="admin">
 			<folder>assets</folder>
 			<folder>controllers</folder>
+			<folder>help</folder>
 			<folder>helpers</folder>
 			<folder>languages</folder>
 			<folder>models</folder>

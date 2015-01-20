@@ -58,6 +58,31 @@ class DdcbookitControllersResidences extends DdcbookitControllersDefault
     			$app->input->set('view', $viewName);
 
 			}
+			
+			if($task=="residence.apply")
+			{
+				$modelName  = $app->input->get('models', 'residences');
+				$modelName  = 'DdcbookitModels'.ucwords($modelName);
+				$model = new $modelName();
+				
+				if( $row = $model->updatetable() )
+				{
+					$return['success'] = true;
+					$msg = JText::_('COM_DDCBOOKIT_SAVE_SUCCESS');
+				}
+				$viewName = $app->input->getWord('view', 'residences');
+				$app->input->set('layout','default');
+				$app->input->set('view', $viewName);
+			
+			}
+			//display view
+			return parent::execute();
+		}
+		else
+		{
+			$viewName = $app->input->getWord('view', 'dashboard');
+			$app->input->set('layout','default');
+			$app->input->set('view', $viewName);
 			//display view
 			return parent::execute();
 		}

@@ -10,8 +10,8 @@ JHtml::_('behavior.tooltip');
                 <thead>
                 	<tr>
                 		<th width="5%"><?php echo JText::_('COM_DDCBOOKIT_APARTMENT_PUBLISHED_LABEL'); ?></th>
-        				<th width="5%"><?php echo JText::_('COM_DDCBOOKIT_APARTMENT_ID_LABEL'); ?></th>
-						<th width="20%" style="text-align: left;"><?php echo JText::_('COM_DDCBOOKIT_APARTMENT_RESIDENCE_NAME_LABEL'); ?></th>
+        				<th width="5%"><?php echo JText::_('COM_DDCBOOKIT_APARTMENT_ID'); ?></th>
+						<th width="20%" style="text-align: left;"><?php echo JText::_('COM_DDCBOOKIT_RESIDENCE_NAME_LABEL'); ?></th>
 						<th width="20%" style="text-align: left;"><?php echo JText::_('COM_DDCBOOKIT_APARTMENT_PROPTYPES'); ?></th>
 						<th width="10%"><?php echo JText::_('COM_DDCBOOKIT_START_DATE_LABEL'); ?></th>
 						<th width="10%"><?php echo JText::_('COM_DDCBOOKIT_END_DATE_LABEL'); ?></th>

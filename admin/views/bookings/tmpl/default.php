@@ -8,11 +8,11 @@ JHtml::_('behavior.tooltip');
         <table class="adminlist">
                 <thead>
                 	<tr>
-                		<th width="5%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_BOOKING_STATUS'); ?></th>
+                		<th width="10%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_BOOKING_STATUS'); ?></th>
         				<th width="10%" style="text-align:center;"><?php echo JText::_('COM_DDCBOOKIT_BOOKING_ID'); ?></th>
 						<th width="20%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_BOOKING_NAME'); ?></th>
-						<th width="15%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_CONTACT_NAME'); ?></th>
-						<th width="10%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_MAX_ADULTS_LABEL'); ?></th>
+						<th width="10%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_CONTACT_NAME'); ?></th>
+						<th width="8%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_NUM_GUESTS_LABEL'); ?></th>
 						<th width="8%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_APARTMENT_ID'); ?></th>
 						<th width="10%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_CHECKIN'); ?></th>
 						<th width="10%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_CHECKOUT'); ?></th>
@@ -26,7 +26,7 @@ JHtml::_('behavior.tooltip');
                 <?php foreach($this->items as $i => $item): ?>
         			<tr class="row<?php echo $i % 2; ?>">
                 		<td>
-        					<?php if($item->status==1){ echo 'Created';}elseif($item->status==2){echo 'Confirmed';}elseif($item->status==0){echo 'Cancelled';} ?>
+        					<?php if($item->status==1){ echo 'Created';}elseif($item->status==2){echo 'Confirmed';}elseif($item->status==0){echo 'Cancelled';}elseif($item->status==3){echo '<a href="'.JRoute::_('index.php?option=com_ddcbookit&view=bookings&layout=payments&payment_id='.$item->ddc_payment_id).'">Payment Ready</a>';}elseif($item->status==4){echo '<a href="'.JRoute::_('index.php?option=com_ddcbookit&view=bookings&layout=payments&payment_id='.$item->ddc_payment_id).'">Payment Processed</a>';} ?>
         				</td>
                 		<td style="text-align:center;">
                 	        <?php echo $item->ddcbookit_bookings_id; ?>

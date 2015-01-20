@@ -33,8 +33,10 @@ class DdcbookitModelsServices extends DdcbookitModelsDefault
     $query = $db->getQuery(TRUE);
 
     $query->select('service.*');
+    $query->select('service.service_name');
     $query->from('#__ddcbookit_services as service');
-    $query->order('service.service_name ASC');
+    $query->group('service.service_name');
+    $query->order('service.ddcbookit_services_id ASC');
     
     return $query;
     

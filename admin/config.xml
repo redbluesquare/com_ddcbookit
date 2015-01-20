@@ -98,6 +98,11 @@
 		    label="COM_DDCBOOKIT_BOOK_REF"
 		    description="COM_DDCBOOKIT_BOOK_REF_DESC"
 		/>
+		<field name="second_email"
+		    type="email"
+		    label="COM_DDCBOOKIT_SEC_EMAIL"
+		    description="COM_DDCBOOKIT_BOOK_SEC_EMAIL"
+		/>
 		
 	</fieldset>
 	

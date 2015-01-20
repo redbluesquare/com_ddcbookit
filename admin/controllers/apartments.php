@@ -60,6 +60,14 @@ class DdcbookitControllersApartments extends DdcbookitControllersDefault
 			//display view
 			return parent::execute();
 		}
+		else
+		{
+			$viewName = $app->input->getWord('view', 'dashboard');
+			$app->input->set('layout','default');
+			$app->input->set('view', $viewName);
+			//display view
+			return parent::execute();
+		}
 	}
 		
 }

@@ -19,22 +19,31 @@
 				WHERE (am.residence_name = cm.ddcbookit_residence_id) AND (am.proptype_id = bm.ddcbookit_proptype_id) AND (am.catid = dm.id)"
 			class="span12"
 		/>
-		<field
+	</fieldset>
+	<fieldset name="prices_top1">
+	    <field
 			name="price"
 			type="text"
-			label="COM_DDCBOOKIT_PRICE"
-			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_DESC"
+			label="COM_DDCBOOKIT_PRICE_LABEL"
+			description="COM_DDCBOOKIT_PRICE_DESC"
 			class="span12"
 		/>
-		<field
-			name="price"
+	    <field
+			name="days_before_discount"
 			type="text"
-			label="COM_DDCBOOKIT_PRICE"
-			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_DESC"
+			label="COM_DDCBOOKIT_DBD"
+			description="COM_DDCBOOKIT_DAYS_B4_DISCOUNT_DESC"
+			class="span12"
+		/>
+	    <field
+			name="discount_price"
+			type="text"
+			label="COM_DDCBOOKIT_DISCOUNT_PRICE"
+			description="COM_DDCBOOKIT_DISCOUNT_PRICE_DESC"
 			class="span12"
 		/>
 	</fieldset>
-	<fieldset name="prices_top1">
+	<fieldset name="prices_top2">
 		<field
 			name="startdate"
 			type="calendar"

@@ -43,29 +43,19 @@
 			label="COM_DDCBOOKIT_PROPTYPE_LABEL"
 			description="COM_DDCBOOKIT_PROPTYPE_DESC"
 			query="SELECT ddcbookit_proptype_id AS value, proptype_title as proptype_id FROM #__ddcbookit_proptypes"
-<<<<<<< HEAD
-=======
-		/>
-	</fieldset>
-	<fieldset name="apartment_head">
-		<field
-			name="apartment_name"
-			type="text"
-			label="COM_DDCBOOKIT_APARTMENT_APARTMENT_NAME_LABEL"
-			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_NAME_DESC"
-			required="yes"
-			class="span12"
-		/>
-		<field
-			name="alias"
-			type="text"
-			label="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_LABEL"
-			description="COM_DDCBOOKIT_APARTMENT_APARTMENT_ALIAS_DESC"
-			class="span12"
->>>>>>> branch 'master' of https://github.com/redbluesquare/com_ddcbookit
 		/>
 	</fieldset>
 	<fieldset name="apartment_main">
+		<field
+			name="description"
+			type="editor"
+			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_DESCRIPTION_LABEL"
+			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_DESCRIPTION_DESC"
+			filter="raw"
+			row="5"
+		/>
+	</fieldset>
+	<fieldset name="apartment_right">
 		<field
 			name="num_of_apartments"
 			type="text"
@@ -73,21 +63,21 @@
 			description="COM_DDCBOOKIT_NUM_OF_APARTMENTS_DESC"
 		/>
 		<field
-			name="max_adults"
+			name="min_guests"
 			type="integer"
 			default="1"
-			label="COM_DDCBOOKIT_MAX_ADULTS_LABEL"
-			description="COM_DDCBOOKIT_MAX_ADULTS_DESC"
+			label="COM_DDCBOOKIT_MIN_GUESTS_LABEL"
+			description="COM_DDCBOOKIT_MIN_GUESTS_DESC"
 			first="0"
 			last="10"
 			step="1"
 		/>
 		<field
-			name="max_kids"
+			name="max_guests"
 			type="integer"
-			default="1"
-			label="COM_DDCBOOKIT_MAX_KIDS_LABEL"
-			description="COM_DDCBOOKIT_MAX_KIDS_DESC"
+			default="2"
+			label="COM_DDCBOOKIT_MAX_GUESTS_LABEL"
+			description="COM_DDCBOOKIT_MAX_GUESTS_DESC"
 			first="0"
 			last="10"
 			step="1"
@@ -110,9 +100,20 @@
 			description="COM_DDCBOOKIT_MIN_STAY_DESC"
 			
 		/>
-		<field name="state" type="list" label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" class="chzn-color-state"
-			filter="intval" size="1" default="2"
+		<field
+			name="thumbnail_image"
+			type="media"
+			label="COM_DDCBOOKIT_THUMBNAIL_IMAGE_LABEL"
+			description="COM_DDCBOOKIT_THUMBNAIL_IMAGE_DESC"
+		/>
+		<field name="state" 
+		    type="list" 
+		    label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC" 
+			class="chzn-color-state"
+			filter="intval" 
+			size="1" 
+			default="2"
 		>
 			<option value="1">
 				JCONFIRM_IMMEDIATE</option>
@@ -126,8 +127,8 @@
 		<field
 			name="table"
 			type="text"
-			label="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_LABEL"
-			description="COM_DDCBOOKIT_APARTMENT_RESIDENCE_TABLE_DESC"
+			label="COM_DDCBOOKIT_TABLE_LABEL"
+			description="COM_DDCBOOKIT_TABLE_DESC"
 			hidden="true"
 			class="hidden"
 			default="apartments"

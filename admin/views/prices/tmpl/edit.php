@@ -47,6 +47,26 @@ JHtml::_('behavior.tooltip');
 						<?php endif;?>
 					<?php endforeach; ?>
 					</div>
+					<div class="clearfix"></div>
+					<div class="row-fluid">
+					<?php foreach($this->form->getFieldset('prices_top2') as $field): ?>
+						<?php if ($field->hidden):// If the field is hidden, just display the input.?>
+							<?php echo $field->input;?>
+						<?php else:?>
+						<div class="control-group span3">
+							<div class="control-label">
+							<?php echo $field->label; ?>
+							<?php if (!$field->required && $field->type != 'Spacer') : ?>
+								<span class="optional"><?php //echo JText::_('COM_USERS_OPTIONAL');?></span>
+							<?php endif; ?>
+							</div>
+							<div class="controls">
+								<?php echo $field->input;?>
+							</div>
+						</div>
+						<?php endif;?>
+					<?php endforeach; ?>
+					</div>
 					<div class="row-fluid">
 						<?php foreach($this->form->getFieldset('hidden') as $field): ?>
 						<?php if ($field->hidden):// If the field is hidden, just display the input.?>

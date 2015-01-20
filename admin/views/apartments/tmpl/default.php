@@ -11,7 +11,7 @@ JHtml::_('behavior.tooltip');
                 	<tr>
                 		<th width="5%"><?php echo JText::_('COM_DDCBOOKIT_PUBLISHED_LABEL'); ?></th>
         				<th width="5%"><?php echo JText::_('COM_DDCBOOKIT_ID_LABEL'); ?></th>
-						<th width="15%" style="text-align: left;"><?php echo JText::_('COM_DDCBOOKIT_APARTMENT_RESIDENCE_NAME_LABEL'); ?></th>
+						<th width="15%" style="text-align: left;"><?php echo JText::_('COM_DDCBOOKIT_RESIDENCE_NAME_LABEL'); ?></th>
 						<th width="10%" style="text-align: left;"><?php echo JText::_('COM_DDCBOOKIT_APARTMENT_PROPTYPES'); ?></th>
 						<th width="10%" style="text-align: left;"><?php echo JText::_('COM_DDCBOOKIT_APARTMENT_CATEGORY'); ?></th>
 						<th width="10%"><?php echo JText::_('COM_DDCBOOKIT_NO_OF_APARTMENTS'); ?></th>

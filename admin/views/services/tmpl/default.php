@@ -8,8 +8,8 @@ JHtml::_('behavior.tooltip');
         <table class="adminlist">
                 <thead>
                 	<tr>
-                		<th width="10%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_SERVICE_STATUS'); ?></th>
-        				<th width="5%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_SERVICE_ID'); ?></th>
+                		<th width="10%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_STATUS'); ?></th>
+        				<th width="5%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_ID'); ?></th>
 						<th width="40%" style="text-align:left;"><?php echo JText::_('COM_DDCBOOKIT_SERVICE_NAME'); ?></th>
 					</tr>
                 </thead>

@@ -35,6 +35,7 @@ class DdcbookitModelsBookings extends DdcbookitModelsDefault
   	}else{
   		$this->_booking_id = $app->input->get('booking_id', null);
   	}
+  	$this->_apartment_id = $app->input->get('apartment_id', null);
   	$input = new JInput();
   	$jinput = JFactory::getApplication()->input;
    	$this->_formdata    = $jinput->get('jform', array(),'array');
@@ -121,10 +122,6 @@ class DdcbookitModelsBookings extends DdcbookitModelsDefault
   	{
   		$query->where('apartment.ddcbookit_apartments_id = "'.$this->_apartment_id.'"');
   	}
-  	//if($this->_apartment_id!=null)
-  	//{
-  	//	$query->where('apartbook.apartment_id = "'.$this->_apartment_id.'"');
-  	//}
    return $query;
   }
   public function storebooking(){
@@ -144,7 +141,7 @@ class DdcbookitModelsBookings extends DdcbookitModelsDefault
   	$representative = $jinput->get('representative',null,'string');
   	$euracom_source = $jinput->get('euarcom_source',null);
   	$adults = $jinput->get('num_adults',null);
-  	$kids = $jinput->get('num_kids',null);
+  	$kids = $jinput->get('num_children',null);
   	$booked_price = $jinput->get('booked_price',null);
   	$apartment_id = $jinput->get('apartment_id',null);
   	$user_id = $jinput->get('user_id',null);
@@ -161,13 +158,6 @@ class DdcbookitModelsBookings extends DdcbookitModelsDefault
   	{
   		$app = JFactory::getApplication();
   		$msg = "Please complete all required fields";
-  		$link=  JRoute::_('index.php?option=com_ddcbookit&view=apartments&layout=apartmentbook&apartment_id='.$apartment_id,true);
-  		$app->redirect($link,$msg);
-  	}
-  	elseif($apartment_id==DdcbookitModelsDefault::checkmybooking($apartment_id, $checkin, $checkout))
-  	{
-  		$app = JFactory::getApplication();
-  		$msg = "Send message of booking details and note to call";
   		$link=  JRoute::_('index.php?option=com_ddcbookit&view=apartments&layout=apartmentbook&apartment_id='.$apartment_id,true);
   		$app->redirect($link,$msg);
   	}
@@ -208,6 +198,139 @@ class DdcbookitModelsBookings extends DdcbookitModelsDefault
   	return $query;
 	
   	}
+  }
+  
+  /**
+   * Function to save an e-mail before sending it out to all relevant receipients
+   * @table		#__ddcmailmax_articles to save the data
+   * @link		c.catid to save the ddcbookit_bookings_id in the @table
+   */
+  public function booking_request_mail()
+  {
+  	//get the new booking posted by function storebooking()
+  	$params = JComponentHelper::getParams('com_ddcbookit');
+  	$modelBooking = new DdcbookitModelsBookings();
+  	$this->booking = $modelBooking->getItem();
+  	$booking_id = (string)$this->booking->ddcbookit_bookings_id;
+  	$token = (string)$this->booking->token;
+  	$contact_name = (string)$this->booking->contact_name;
+  	$contact_email = (string)$this->booking->contact_email;
+  	$contact_tel = (string)$this->booking->contact_tel;
+  	$residence_name = (string)$this->booking->residence_name;
+  	$proptype_title = (string)$this->booking->proptype_title;
+  	$num_adults = (string)$this->booking->num_adults;
+  	$num_kids = (string)$this->booking->num_kids;
+  	$checkin = (string)JHtml::date($this->booking->checkin,'d-M-Y');
+  	$checkout = (string)JHtml::date($this->booking->checkout,'d-M-Y');
+  	$address1 = (string)$this->booking->address1;
+  	$town = (string)$this->booking->town;
+  	$status = (int)$this->booking->status;
+  	$post_code = (string)$this->booking->post_code;
+  	$booked_price = (string)number_format($this->booking->booked_price,2);
+  	if($booked_price==0)
+  	{
+  		$booked_price="TBC";
+  	}
+  	$todaysdate =  (string)JHtml::date("",'Y-m-d');
+  	$year =  (string)JHtml::date("",'Y');
+  	$emailheader = null;
+  	$bookref = (string)$params->get('book_reference');
+  	$terms = null;
+  	$interval = date_diff(date_create($this->booking->checkin),date_create($this->booking->checkout));
+  	$days = (int)$interval->format('%a');
+  	$paymenturl = JUri::root().'index.php?option=com_ddcbookit&view=bookings&layout=default&booking_id='.$booking_id.'&token='.$token;
+  	 
+  	$sitetitle = JFactory::getApplication()->getCfg('sitename');
+  	 
+  	if($status==1):
+  	$emailheader = (string)$params->get('email_header');
+  	$terms = (string)$params->get('terms_details_request');
+  	$message = <<<EOT
+  	<div style="width:800px; box-shadow:#ccc 0px 0px 5px;">
+  		<div style="background:#163bb2;display:block;width:770px;color:#cfcfcf;padding:2px 10px 1px 20px;">
+  			<h1 style="padding:10px;">$sitetitle</h1>
+  		</div>
+		<div style="background:#ffffff;display:block;padding:10px;"><h2>$emailheader</h2><hr />
+			<table class="table borderless"><tbody>
+			<tr><td class="span3" style="text-align:right;font-weight:bold;">$bookref </td><td class="span9">$booking_id</td></tr>
+			<tr><td class="span3" style="text-align:right;font-weight:bold;">Contact Name: </td><td class="span9">$contact_name</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Contact E-mail: </td><td>$contact_email</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Contact Telephone: </td><td>$contact_tel</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Apartment: </td><td><span style="font-weight:bold;font-size:1.3em;color:#990099">$residence_name</span><br />$proptype_title</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Address: </td><td>$address1<br />$town<br />$post_code<br /></td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Number of Guests: </td><td>$num_adults adults and $num_kids kids</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Duration: </td><td><span class="price_green\">$checkin</span> to <span class="price_green">$checkout</span> ($days nights)</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Price: </td><td>&pound; $booked_price</td></tr>
+  			</tbody>
+  			</table>
+			$terms
+		</div>
+		<div style="background:#163bb2;display:block;min-height:20px;padding:10px;">
+			<p style="float:right;color:#ffffff\"><a style="color:#ffffff;text-decoration:none;" href="http:\\www.euracomapartments.co.uk">Euracom Apartments $year</a></p><div style="clear:both;">
+		</div>
+	</div>
+EOT;
+  	endif;
+  	if($status==2):
+  	$emailheader = (string)$params->get('email_header_conf');
+  	$terms = (string)$params->get('terms_details_confirmed');
+  	$message = <<<EOT
+  	<div style="width:800px; box-shadow:#ccc 0px 0px 5px;">
+  		<div style="background:#163bb2;display:block;width:770px;color:#cfcfcf;padding:2px 10px 1px 20px;">
+  			<h1 style="padding:10px;">$sitetitle</h1>
+  		</div>
+		<div style="background:#ffffff;display:block;padding:10px;"><h2>$emailheader</h2><hr />
+			<table class="table borderless"><tbody>
+			<tr><td colspan="2">We have good news, your booking has now been confirmed and ready for payment. Please <a href="$paymenturl" target="_BLANK" >click here</a> to enter your payment details.</td></tr>
+			<tr><td class="span3" style="text-align:right;font-weight:bold;">$bookref: </td><td class="span9">$booking_id</td></tr>
+			<tr><td class="span3" style="text-align:right;font-weight:bold;">Contact Name: </td><td class="span9">$contact_name</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Contact E-mail: </td><td>$contact_email</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Contact Telephone: </td><td>$contact_tel</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Apartment: </td><td><span style="font-weight:bold;font-size:1.3em;color:#990099">$residence_name</span><br />$proptype_title</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Address: </td><td>$address1<br />$town<br />$post_code<br /></td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Number of Guests: </td><td>$num_adults adults and $num_kids kids</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Duration: </td><td><span class="price_green\">$checkin</span> to <span class="price_green">$checkout</span> ($days nights)</td></tr>
+  			<tr><td style="text-align:right;font-weight:bold;">Price: </td><td>&pound; $booked_price</td></tr>
+  			</tbody>
+  			</table>
+			$terms
+		</div>
+		<div style="background:#163bb2;display:block;min-height:20px;padding:10px;">
+			<p style="float:right;color:#ffffff\"><a style="color:#ffffff;text-decoration:none;" href="http:\\www.euracomapartments.co.uk">Euracom Apartments $year</a></p><div style="clear:both;">
+		</div>
+	</div>
+EOT;
+  	endif;
+  	 
+  	// Get a db connection.
+  	$db = JFactory::getDbo();
+  
+  	// Create a new query object.
+  	$query = $db->getQuery(true);
+  	 
+  	// Insert columns.
+  	$columns = array('title', 'alias', 'fulltext', 'ref_id', 'state', 'created', 'modified');
+  	 
+  	// Insert values.
+  	$values = array($db->quote(''), $db->quote(''), $db->quote($message), $db->quote($booking_id), '1', $todaysdate, $todaysdate);
+  	 
+  	// Prepare the insert query.
+  	$query
+  	->insert($db->quoteName('#__ddcmailmax_articles'))
+  	->columns($db->quoteName($columns))
+  	->values(implode(',', $values));
+  	 
+  	// Set the query using our newly populated query object and execute it.
+  	$db->setQuery($query);
+  	$db->execute();
+  	 
+  	$name		= $contact_name;
+  	$email		= JStringPunycode::emailToPunycode($contact_email);
+  	$subject	= "Booking made today on www.euracomapartments.co.uk";
+  
+  	$result = array($message, $name, $email, $subject);
+  	 
+  	return $result;
   }
   
 }

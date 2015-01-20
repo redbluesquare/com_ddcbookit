@@ -17,6 +17,8 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
   var $_bookdate				= null;
   var $_checkin					= null;
   var $_checkout				= null;
+  var $_adults					= null;
+  var $_children				= null;
   var $_formdata				= null;
   protected $messages;
 
@@ -31,6 +33,8 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
   	$this->_residence_id = $app->input->get('residence_id', null);
   	$this->_checkin = $app->input->get('datecheckin', null);
   	$this->_checkout = $app->input->get('datecheckout', null);
+  	$this->_adults = $app->input->get('adults', null);
+  	$this->_children = $app->input->get('children', null);
   	$this->_cat_id = $app->input->get('id', null);
   	$jinput = JFactory::getApplication()->input;
 	$this->_formdata    = $jinput->get('jform', array(),'array');
@@ -54,33 +58,29 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
     $query->select('apartment.ddcbookit_apartments_id');
     $query->select('apartment.house_num');
     $query->select('apartment.num_of_apartments');
-<<<<<<< HEAD
     $query->select('apartment.residence_name');
-=======
->>>>>>> branch 'master' of https://github.com/redbluesquare/com_ddcbookit
-    $query->select('apartment.max_adults');
-    $query->select('apartment.max_kids');
+    $query->select('apartment.max_guests');
+    $query->select('apartment.min_guests');
     $query->select('apartment.proptype_id');
     $query->select('apartment.num_of_beds');
     $query->select('apartment.catid');
     $query->select('apartment.min_stay');
+    $query->select('apartment.thumbnail_image');
     $query->select('apartment.hits');
     $query->select('apartment.state');
+    $query->select('cat.title as cat_title');
     $query->select('residence.residence_name as res_name,residence.ddcbookit_residence_id');
     $query->select('proptype.proptype_title,proptype.ddcbookit_proptype_id');
     $query->select('c.title as category_title');
+    $query->select('poi.title as poi_title');
     $query->from('#__ddcbookit_apartments as apartment');
-    $query->from('#__ddcbookit_proptypes as proptype');
-    $query->from('#__ddcbookit_residences as residence');
-    $query->from('#__categories as c');
-<<<<<<< HEAD
+    $query->leftJoin('#__ddcbookit_proptypes as proptype ON (proptype.ddcbookit_proptype_id = apartment.proptype_id)');
+    $query->leftJoin('#__ddcbookit_residences as residence ON (residence.ddcbookit_residence_id = apartment.residence_name)');
+    $query->leftJoin('#__categories as c ON (apartment.catid = c.id)');
+    $query->leftJoin('#__ddcbookit_poi as poi ON (poi.ddcbookit_poi_id = residence.nearest_poi)');
+    $query->leftJoin('#__categories as cat ON (cat.id = poi.catid)');
     $query->order('residence.residence_name ASC');
     $query->order('apartment.proptype_id ASC');
-=======
->>>>>>> branch 'master' of https://github.com/redbluesquare/com_ddcbookit
-    $query->where('residence.ddcbookit_residence_id = apartment.residence_name');
-    $query->where('proptype.ddcbookit_proptype_id = apartment.proptype_id');
-    $query->where('apartment.catid = c.id');
     
     return $query;
     
@@ -95,11 +95,19 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
   protected function _buildWhere(&$query)
   {
 
-
   	if($this->_apartment_id!=null)
   	{
   		$query->where('apartment.ddcbookit_apartments_id = "'.(int)$this->_apartment_id.'"');
   	}
+  	if(($this->_adults!=null) Or ($this->_children!=null))
+  	{
+  		$query->where('apartment.ddcbookit_max_guests >= "'.((int)$this->_adults+(int)$this->_children).'"');
+  	}
+  	if($this->_published!=null)
+  	{
+  		$query->where('residence.state = "'.$this->_published.'"');
+  	}
+  	
    return $query;
   }
   

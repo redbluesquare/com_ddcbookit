@@ -148,54 +148,5 @@ JHtml::_('bootstrap.framework');
         </div>
 	</form>
 	</div>
-<<<<<<< HEAD
-=======
-<!-- 	<script> -->
-// 	jQuery(document).ready(function(){
-		
-// 		//apartment check
-// 		jQuery("#adminForm :input").on("blur change click",function(){
-// 			if(jQuery("#jform_apartment_id").val()==""){
-// 				jQuery(".priceupdate").html("Select an apartment").css("color","red");
-// 			}
-// 			else if(jQuery("#jform_checkin").val()==""){
-				
-// 				jQuery(".priceupdate").html("Enter a checkin date").css("color","red");
-// 			}
-// 			else if(jQuery("#jform_checkout").val()==""){
-// 				jQuery(".priceupdate").html("Enter a checkout date").css("color","red");
-// 			}
-// 			else{
-// 				var priceInfo = {};
-// 				jQuery("#adminForm :input").each(function(idx,ele){
-// 					priceInfo[jQuery(ele).attr('name')] = jQuery(ele).val();
-// 				});
->>>>>>> branch 'master' of https://github.com/redbluesquare/com_ddcbookit
 
-<<<<<<< HEAD
-=======
-// 				jQuery.ajax({
-// 					url:'index.php?option=com_ddcbookit&controller=bookings&format=raw&tmpl=component',
-// 					type:'POST',
-// 					data:priceInfo,
-// 					dataType:'JSON',
-// 					success:function(data)
-// 					{
-
-						
-// 						if ( data.success ){
-// 							jQuery(".priceupdate").html("");
-// 							jQuery("#jform_booked_price").val(data.price);
-// 						}
-// 						//else{
-// 						//}
-// 					}
-// 				});
-				
-// 			}
-// 		});
-		
-// 	});
-	</script>
->>>>>>> branch 'master' of https://github.com/redbluesquare/com_ddcbookit
 

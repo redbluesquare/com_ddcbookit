@@ -1,5 +1,7 @@
 <?php // no direct access
-
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
 defined( '_JEXEC' ) or die( 'Restricted access' ); 
  
 class DdcbookitModelsApartments extends DdcbookitModelsDefault
@@ -14,9 +16,9 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
   var $_pagination  		= null;
   var $_published   		= 1;
   var $_user_id     		= null;
-  var $_ppl					= null;
+  var $_max_guests			= null;
   var $_adults				= null;
-  var $_kids				= null;
+  var $_children			= null;
   var $_rooms				= null;
   var $_proptype			= null;
   var $_formdata			= null;
@@ -28,32 +30,44 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
   	$app = JFactory::getApplication();
   	//If no User ID is set to current logged in user
   	$this->_user_id = $app->input->get('profile_id', JFactory::getUser()->id);
-  	$app = JFactory::getApplication();
+  	$this->_residence_id = $app->input->get('residence_id', null);
+  	$this->_rooms = $app->input->get('rooms', null);
+  	$this->_cat_id = $app->input->get('id', null);
   	$session = JFactory::getSession();
   	$input = new JInput();
-  	if($input->get('apartmentdatecheck',null)==1){
+  	if($input->get('check')==2){
+  		$session->clear('check');
+  		$session->clear('location');
+  		$session->clear('proptype');
+  		$session->clear('checkin');
+  		$session->clear('checkout');
+  		$session->clear('adults');
+  		$session->clear('children');
+  	}
+  	if( ($input->get('apartmentdatecheck',null)==1) OR ($input->get('check',null)==1)){
   		$session->set('checkin', JHtml::date($input->get('datecheckin',null),"Y-m-d"));
   		$session->set('checkout', JHtml::date($input->get('datecheckout',null),"Y-m-d"));
   		$session->set('check', 1);
-  		$session->set('adults', 2);
-  		$session->set('kids', 0);
+  		$session->set('adults', $input->get('adults',null));
+  		$session->set('proptype', $input->get('proptype',null));
+  		$session->set('children', $input->get('children',null));
   	}
   	if($session->get('adults')!=null && $input->get('check',null)==null){
   		$this->_adults = $session->get('adults');
   	}else{
   		$this->_adults = $input->get('adults',null);
   	}
-  	if($session->get('kids')!=null){
-  		$this->_kids = $session->get('kids');
+  	if($session->get('proptype')!=null && $input->get('check',null)==null){
+  		$this->_proptype = $session->get('proptype');
   	}else{
-  		$this->_kids = $input->get('kids',null);
+  		$this->_proptype = $input->get('proptype',null);
   	}
   	if($session->get('checkin')!=null){
   	$checkin = $session->get('checkin');
   	$checkout = $session->get('checkout');
   	}else{
   		$checkin = JHtml::date($input->get('datecheckin',null),"Y-m-d");
-  		$checkout = JHtml::date($input->get('datechecout',null),"Y-m-d");
+  		$checkout = JHtml::date($input->get('datecheckout',null),"Y-m-d");
   	}
   	$checkinA = date_create($checkin);
   	$checkoutA = date_create($checkout);
@@ -62,11 +76,7 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
   	if($app->input->get('apartment_id', null)!=null){
   		$this->_apartment_id = $app->input->get('apartment_id', null);
   	}
-  	$this->_residence_id = $app->input->get('residence_id', null);
-  	$this->_ppl = $input->get('ppl',null);
-  	$this->_rooms = $app->input->get('rooms', null);
-  	$this->_proptype = $input->get('proptype', null);
-  	$this->_cat_id = $app->input->get('id', null);
+  	
   	$jinput = JFactory::getApplication()->input;
 	$this->_formdata    = $jinput->get('jform', array(),'array');	
 	
@@ -89,35 +99,33 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
     $query->select('apartment.ddcbookit_apartments_id');
     $query->select('apartment.apartment_name');
     $query->select('apartment.residence_name as res_id');
-    $query->select('apartment.max_adults');
-    $query->select('apartment.max_kids');
+    $query->select('apartment.max_guests');
+    $query->select('apartment.min_guests');
     $query->select('apartment.min_stay');
     $query->select('apartment.hits');
-    $query->select('apartment.catid');
     $query->select('apartment.state');
     $query->select('apartment.proptype_id as pt_id');
-    $query->select('(apartment.max_kids+apartment.max_adults) as ppl');
-    $query->select('apartment.num_of_beds');
-    $query->select('apartment.num_of_apartments');
-    $query->select('price.price');
-    $query->select('proptype.ddcbookit_proptype_id');
-    $query->select('proptype.proptype_title as pt');
-    $query->from('#__ddcbookit_apartments as apartment');
-    $query->from('#__ddcbookit_proptypes as proptype');
-    $query->from('#__ddcbookit_apartment_prices as price');
     $query->select('residence.main_image');
     $query->select('residence.image_thumb');
     $query->select('residence.residence_name as res_name');
     $query->select('residence.town');
     $query->select('residence.post_code');
     $query->select('residence.description');
-    $query->from('#__ddcbookit_residences as residence');
-    $query->where('apartment.residence_name = residence.ddcbookit_residence_id');
-    $query->where('apartment.proptype_id = proptype.ddcbookit_proptype_id');
-<<<<<<< HEAD
-    $query->where('price.apartment_id = apartment.ddcbookit_apartments_id');
-=======
->>>>>>> branch 'master' of https://github.com/redbluesquare/com_ddcbookit
+    $query->select('max_guests');
+    $query->select('apartment.num_of_beds');
+    $query->select('apartment.num_of_apartments');
+    $query->select('apartment.thumbnail_image');
+    $query->select('cat.title as cat_title');
+    $query->select('c.title');
+    $query->select('proptype.ddcbookit_proptype_id');
+    $query->select('proptype.proptype_title as pt');
+    $query->from('#__ddcbookit_apartments as apartment');
+    $query->leftJoin('#__ddcbookit_residences as residence ON (apartment.residence_name = residence.ddcbookit_residence_id)');
+    $query->leftJoin('#__ddcbookit_proptypes as proptype ON (apartment.proptype_id = proptype.ddcbookit_proptype_id)');
+    $query->leftJoin('#__categories as c ON (apartment.catid = c.id)');
+    $query->leftJoin('#__ddcbookit_poi as poi ON (poi.ddcbookit_poi_id = residence.nearest_poi)');
+    $query->leftJoin('#__categories as cat ON poi.catid = cat.id');
+
     $query->group('apartment.ddcbookit_apartments_id');
     $query->order('apartment.hits DESC');
     return $query;
@@ -132,10 +140,6 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
   */
   protected function _buildWhere(&$query)
   {
-  	if($this->_adults!=null)
-  	{
-  		$query->where('(apartment.max_kids+apartment.max_adults) >= "'.((int)$this->_adults+(int)$this->_kids).'"');
-  	}
   	if($this->_apartment_id!=null)
   	{
   		$query->where('apartment.ddcbookit_apartments_id = "'.(int)$this->_apartment_id.'"');
@@ -154,38 +158,19 @@ class DdcbookitModelsApartments extends DdcbookitModelsDefault
   	}
   	if($this->_stayindays==0)
   	{
-  		$query->where('(price.max_days >= "'.$this->_stayindays.'") AND (price.min_days <= "'.$this->_stayindays.'")');
   	
   	}
   	else
   	{
-  		$query->where('(price.max_days >= "'.$this->_stayindays.'") AND (price.min_days <= "'.$this->_stayindays.'")');
   		$query->where('apartment.min_stay <= "'.$this->_stayindays.'"');
+  	}
+  	if(($this->_adults!=null) Or ($this->_children!=null))
+  	{
+  		$query->where('apartment.max_guests >= "'.((int)$this->_adults+(int)$this->_children).'"');
   	}
    return $query;
   }
-  
-  static function getPrices()
-  {
-  	//UPDATE TO THIS QUERYTO JUST RUN ONCE
-  	//SELECT `apartment_id`, min(`max_days`) as max_days, price FROM `jdev1_ddcbookit_apartment_prices` WHERE (apartment_id = 1) AND (max_days >= 29)
-  	
-  	$db = JFactory::getDBO();
-  	$query = $db->getQuery(TRUE);
-  	$query->select('price.ddcbookit_apartment_price_id as id, price.residence_id, price.proptype_id, price.catid, price.max_days, price.price');
-  	$query->select('price.startdate');
-  	$query->select('price.enddate');
-  	$query->from('#__ddcbookit_apartment_prices as price');
-  	$query->group('price.ddcbookit_apartment_price_id');
-  	// Reset the query using our newly populated query object.
-  	$db->setQuery($query);
-  	$results = $db->loadObjectList();
-  	if($db->getErrorNum()){
-  		JError::raiseWarning(500,$db->stderr(true));
-  	}
-  	return $results;
-  	
-  }
+ 
   
   //Add a hit when ever a user gets to the booking stage
   public function hit($pk = 0)
